@@ -1,6 +1,6 @@
 _base_ = './rotated_faster_rcnn_r50_fpn_1x_dota_le90.py'
 
-pretrained = 'data/pretrained/ckpt_epoch_292.pth'
+pretrained = 'data/pretrained/vmamba_tiny_ckpt_epoch_292.pth'
 
 angle_version = 'le90'
 model = dict(
@@ -21,7 +21,8 @@ model = dict(
         out_indices=(0, 1, 2, 3),
         with_cp=False,
         convert_weights=True,
-        # init_cfg=dict(type='Pretrained', checkpoint=pretrained)
+        # init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
+        dims=[96, 192, 384, 768],
         pretrained=pretrained),
     neck=dict(in_channels=[96, 192, 384, 768]))
 

@@ -143,7 +143,10 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
 | :---------: | :-------: | :-------: | :-------: | :------: | :-----: | :-----: |
 |  Swin-Tiny  |    1.8h   |   70.22   |   72.16   |  44.76M  | 215.54G | [cfg](./mmrotate-main/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_tiny_fpn_1x_dota_le90.py) |
 |  Swin-Small |    2.8h   |   71.49   |   73.21   |  66.08M  | 308.28G | [cfg](./mmrotate-main/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_small_fpn_1x_dota_le90.py) |
+|  Swin-Base  |    3.5h   |   71.43   |   73.08   | 104.11M  | 455.35G | [cfg](./mmrotate-main/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_base_fpn_1x_dota_le90.py) |
 | VMamba-Tiny |    1.7h   |   72.12   |   74.09   |  39.37M  | 179.42G | [cfg](./mmrotate-main/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_tiny_fpn_1x_dota_le90.py) |
+| VMamba-Small|    3.9h   |   72.24   |   74.52   |  60.89M  | 245.38G | [cfg](./mmrotate-main/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_small_fpn_1x_dota_le90.py) |
+| VMamba-Base |    4.9h   |   73.20   |   75.07   |  92.59M  | 342.89G | [cfg](./mmrotate-main/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_base_fpn_1x_dota_le90.py) |
 
 ## 写在后面
 

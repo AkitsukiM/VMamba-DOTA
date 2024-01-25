@@ -8,18 +8,11 @@ from torch.utils import checkpoint
 from functools import partial
 
 import torch.nn as nn
-# from mmcv.runner import BaseModule
-from mmdet.models.builder import BACKBONES
+from mmrotate.registry import MODELS
 from models.vmamba.vmamba import VSSM, VSSLayer
 
 
-# @MODELS.register_module()
-# class MMDET_VSSM(BaseModule, VSSM):
-
-# @BACKBONES.register_module()
-# class MMDET_VSSM(BaseModule, VSSM):
-
-@BACKBONES.register_module()
+@MODELS.register_module()
 class MMDET_VSSM(VSSM):
     def __init__(self, patch_size=4, in_chans=3, num_classes=1000, depths=[2, 2, 9, 2], 
                  dims=[96, 192, 384, 768], drop_rate=0., attn_drop_rate=0., drop_path_rate=0.1,

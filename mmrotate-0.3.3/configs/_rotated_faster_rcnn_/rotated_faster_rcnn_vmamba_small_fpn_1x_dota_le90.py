@@ -9,10 +9,5 @@ model = dict(
         # init_cfg=dict(type='Pretrained', checkpoint=pretrained)))
         pretrained=pretrained))
 
-data = dict(
-    samples_per_gpu=1,
-    workers_per_gpu=2)
-
-optimizer = dict(lr=5e-5)
-
 fp16 = None
+

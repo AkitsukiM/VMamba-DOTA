@@ -16,10 +16,5 @@ model = dict(
         pretrained=pretrained),
     neck=dict(in_channels=[128, 256, 512, 1024]))
 
-data = dict(
-    samples_per_gpu=1,
-    workers_per_gpu=2)
-
-optimizer = dict(lr=5e-5)
-
 fp16 = None
+

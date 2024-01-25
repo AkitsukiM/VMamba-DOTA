@@ -9,3 +9,4 @@ model = dict(
         init_cfg=dict(type='Pretrained', checkpoint=pretrained)))
 
 fp16 = None
+

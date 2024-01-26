@@ -158,16 +158,79 @@ Params&FLOPs计算：
 python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated_faster_rcnn_r50_fpn_1x_dota_le90.py
 ```
 
-## 基于Rotated Faster RCNN的性能报告
+## Performance
 
-|    Model    | 12 epochs | split mAP | merge mAP |  Params  |  FLOPs  | Configs |
-| :---------: | :-------: | :-------: | :-------: | :------: | :-----: | :-----: |
-|  Swin-Tiny  |    1.8h   |   70.22   |   72.16   |  44.76M  | 215.54G | [cfg](./mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_tiny_fpn_1x_dota_le90.py) |
-|  Swin-Small |    2.8h   |   71.49   |   73.21   |  66.08M  | 308.28G | [cfg](./mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_small_fpn_1x_dota_le90.py) |
-|  Swin-Base  |    3.5h   |   71.43   |   73.08   | 104.11M  | 455.35G | [cfg](./mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_base_fpn_1x_dota_le90.py) |
-| VMamba-Tiny |    1.7h   |   72.12   |   74.09   |  39.37M  | 179.42G | [cfg](./mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_tiny_fpn_1x_dota_le90.py) |
-| VMamba-Small|    3.9h   |   72.24   |   74.52   |  60.89M  | 245.38G | [cfg](./mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_small_fpn_1x_dota_le90.py) |
-| VMamba-Base |    4.9h   |   73.20   |   75.07   |  92.59M  | 342.89G | [cfg](./mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_base_fpn_1x_dota_le90.py) |
+所有的训练和测试均在4×A100卡上进行。每张卡上的batch_size均为4，初始学习率均为1e-4，训练epoch数均为12。
+
+<table border="9" align="center">
+    <tr >
+        <td >Detector</td>
+        <td >Backbone</td>
+        <td >
+            Training<br>
+            Cost<br>
+        </td>
+        <td >
+            Testing<br>
+            FPS<br>
+        </td>
+        <td >
+            split&nbsp;mAP<br>
+            (3066)<br>
+        </td>
+        <td >
+            merge&nbsp;mAP<br>
+            (5297)<br>
+        </td>
+        <td >Params</td>
+        <td >FLOPs</td>
+        <td >Configs</td>
+    </tr>
+    <tr >
+        <td rowspan="6">
+            Rotated<br>
+            Faster&nbsp;RCNN<br>
+        </td>
+        <td > Swin-T </td> <td>0.8h</td> <td> 83.2</td> <td>70.11</td> <td>72.62</td> <td> 44.76M</td> <td>215.54G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td > Swin-S </td> <td>2.0h</td> <td> 55.7</td> <td>70.39</td> <td>73.22</td> <td> 66.08M</td> <td>308.28G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_small_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td > Swin-B </td> <td>2.8h</td> <td> 42.9</td> <td>71.73</td> <td>73.91</td> <td>104.11M</td> <td>455.35G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_base_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td >VMamba-T</td> <td>1.7h</td> <td> 62.2</td> <td>72.12</td> <td>74.09</td> <td> 39.37M</td> <td>179.42G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td >VMamba-S</td> <td>4.0h</td> <td> 34.2</td> <td>72.24</td> <td>74.52</td> <td> 60.89M</td> <td>245.38G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_small_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td >VMamba-B</td> <td>5.0h</td> <td> 26.3</td> <td>73.20</td> <td>75.07</td> <td> 92.59M</td> <td>342.89G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_base_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td rowspan="6">
+            Rotated<br>
+            RetinaNet<br>
+        </td>
+        <td > Swin-T </td> <td>0.7h</td> <td>108.6</td> <td>67.14</td> <td>68.68</td> <td> 37.13M</td> <td>222.08G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_swin_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td > Swin-S </td> <td>1.9h</td> <td> 60.3</td> <td>67.54</td> <td>69.66</td> <td> 58.45M</td> <td>314.82G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_swin_small_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td > Swin-B </td> <td>2.7h</td> <td> 45.3</td> <td>68.48</td> <td>70.56</td> <td> 97.06M</td> <td>461.50G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_swin_base_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td >VMamba-T</td> <td>1.6h</td> <td> 62.6</td> <td>68.14</td> <td>69.77</td> <td> 31.74M</td> <td>185.95G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td >VMamba-S</td> <td>3.9h</td> <td> 35.4</td> <td>69.36</td> <td>71.44</td> <td> 53.26M</td> <td>251.92G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_small_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr >
+        <td >VMamba-B</td> <td>4.9h</td> <td> 26.8</td> <td>69.94</td> <td>71.99</td> <td> 85.55M</td> <td>349.03G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_base_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+</table>
 
 ## 写在后面
 
@@ -179,5 +242,5 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
 
 Copyright (c) 2024 Marina Akitsuki. All rights reserved.
 
-Date modified: 2024/01/25
+Date modified: 2024/01/26
 

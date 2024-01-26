@@ -1,4 +1,4 @@
-_base_ = './rotated_faster_rcnn_vmamba_tiny_fpn_1x_dota_le90.py'
+_base_ = './rotated_retinanet_obb_vmamba_tiny_fpn_1x_dota_le90.py'
 
 pretrained = 'data/pretrained/vmamba_base_ckpt_epoch_260.pth'
 
@@ -12,7 +12,7 @@ model = dict(
         # init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
         dims=[128, 256, 512, 1024],
         pretrained=pretrained),
-    neck=dict(in_channels=[128, 256, 512, 1024]))
+    neck=dict(in_channels=[256, 512, 1024]))
 
 fp16 = None
 

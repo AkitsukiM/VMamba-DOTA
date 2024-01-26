@@ -28,7 +28,7 @@ model = dict(
 
 data = dict(
     samples_per_gpu=4,
-    workers_per_gpu=2)
+    workers_per_gpu=4)
 
 # swin paper recommend: batch_size=8*2, init_lr=1e-4
 # if with 8*2080Ti GPU: batch_size=8*1, init_lr=5e-5

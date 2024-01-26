@@ -1,4 +1,4 @@
-_base_ = './rotated_faster_rcnn_swin_tiny_fpn_1x_dota_le90.py'
+_base_ = './rotated_retinanet_obb_swin_tiny_fpn_1x_dota_le90.py'
 
 pretrained = 'data/pretrained/swin_base_patch4_window7_224.pth'
 
@@ -10,7 +10,7 @@ model = dict(
         drop_path_rate=0.3,
         with_cp=True,
         init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
-    neck=dict(in_channels=[128, 256, 512, 1024]))
+    neck=dict(in_channels=[256, 512, 1024]))
 
 fp16 = None
 

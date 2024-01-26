@@ -4,7 +4,6 @@ model[3]="rotated-faster-rcnn-le90_swin-base_fpn_1x_dota_le90"
 model[4]="rotated-faster-rcnn-le90_vmamba-tiny_fpn_1x_dota_le90"
 model[5]="rotated-faster-rcnn-le90_vmamba-small_fpn_1x_dota_le90"
 model[6]="rotated-faster-rcnn-le90_vmamba-base_fpn_1x_dota_le90"
-model[7]="rotated-faster-rcnn-le90_r50_fpn_1x_dota_le90"
 
 for model_i in ${model[*]}
 do

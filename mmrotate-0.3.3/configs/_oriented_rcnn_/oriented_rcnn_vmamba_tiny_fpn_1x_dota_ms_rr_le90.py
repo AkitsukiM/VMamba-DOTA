@@ -1,15 +1,14 @@
-_base_ = './rotated_faster_rcnn_r50_fpn_1x_dota_le90.py'
+_base_ = './oriented_rcnn_r50_fpn_1x_dota_ms_rr_le90.py'
 
-# configs from 'mmdetection-2.25.1/configs/swin/mask_rcnn_swin-t-p4-w7_fpn_1x_coco.py'
+pretrained = 'data/pretrained/vmamba_tiny_ckpt_epoch_292.pth'
 
-pretrained = 'data/pretrained/swin_tiny_patch4_window7_224.pth'
-
+angle_version = 'le90'
 model = dict(
     backbone=dict(
         _delete_=True,
-        type='SwinTransformer',
+        type='MMDET_VSSM',
         embed_dims=96,
-        depths=[2, 2, 6, 2],
+        depths=[2, 2, 9, 2], # depths=[2, 2, 6, 2],
         num_heads=[3, 6, 12, 24],
         window_size=7,
         mlp_ratio=4,
@@ -22,7 +21,9 @@ model = dict(
         out_indices=(0, 1, 2, 3),
         with_cp=False,
         convert_weights=True,
-        init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
+        # init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
+        dims=[96, 192, 384, 768],
+        pretrained=pretrained),
     neck=dict(in_channels=[96, 192, 384, 768]))
 
 data = dict(

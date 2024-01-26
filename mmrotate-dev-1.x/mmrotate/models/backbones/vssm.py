@@ -81,7 +81,7 @@ class MMDET_VSSM(VSSM):
                 norm_layer: nn.LayerNorm = getattr(self, f'outnorm{i}')
                 out = norm_layer(x)
                 out = out.permute(0, 3, 1, 2).contiguous()
-            outs.append(out)
+                outs.append(out)
         return outs
 
 

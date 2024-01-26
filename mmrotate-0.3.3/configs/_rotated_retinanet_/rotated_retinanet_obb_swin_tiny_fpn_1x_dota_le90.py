@@ -1,6 +1,6 @@
-_base_ = './rotated_faster_rcnn_r50_fpn_1x_dota_le90.py'
+_base_ = './rotated_retinanet_obb_r50_fpn_1x_dota_le90.py'
 
-# configs from 'mmdetection-2.25.1/configs/swin/mask_rcnn_swin-t-p4-w7_fpn_1x_coco.py'
+# configs from 'mmdetection-2.25.1/configs/swin/retinanet_swin-t-p4-w7_fpn_1x_coco.py'
 
 pretrained = 'data/pretrained/swin_tiny_patch4_window7_224.pth'
 
@@ -19,11 +19,11 @@ model = dict(
         attn_drop_rate=0.,
         drop_path_rate=0.2,
         patch_norm=True,
-        out_indices=(0, 1, 2, 3),
+        out_indices=(1, 2, 3),
         with_cp=False,
         convert_weights=True,
         init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
-    neck=dict(in_channels=[96, 192, 384, 768]))
+    neck=dict(in_channels=[192, 384, 768], start_level=0, num_outs=5))
 
 data = dict(
     samples_per_gpu=4,

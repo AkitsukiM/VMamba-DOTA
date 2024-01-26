@@ -1,4 +1,4 @@
-_base_ = './rotated_faster_rcnn_r50_fpn_1x_dota_le90.py'
+_base_ = './oriented_rcnn_r50_fpn_1x_dota_ms_rr_le90.py'
 
 # configs from 'mmdetection-2.25.1/configs/swin/mask_rcnn_swin-t-p4-w7_fpn_1x_coco.py'
 

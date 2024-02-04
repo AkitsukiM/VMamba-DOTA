@@ -1,9 +1,9 @@
-model[1]="oriented_rcnn_swin_base_fpn_1x_dota_ms_rr_le90"
-model[2]="oriented_rcnn_swin_small_fpn_1x_dota_ms_rr_le90"
-model[3]="oriented_rcnn_swin_tiny_fpn_1x_dota_ms_rr_le90"
-model[4]="oriented_rcnn_vmamba_base_fpn_1x_dota_ms_rr_le90"
-model[5]="oriented_rcnn_vmamba_small_fpn_1x_dota_ms_rr_le90"
-model[6]="oriented_rcnn_vmamba_tiny_fpn_1x_dota_ms_rr_le90"
+model[1]="oriented_rcnn_vmamba_base_fpn_1x_dota_ms_rr_le90"
+model[2]="oriented_rcnn_vmamba_small_fpn_1x_dota_ms_rr_le90"
+model[3]="oriented_rcnn_vmamba_tiny_fpn_1x_dota_ms_rr_le90"
+model[4]="oriented_rcnn_swin_base_fpn_1x_dota_ms_rr_le90"
+model[5]="oriented_rcnn_swin_small_fpn_1x_dota_ms_rr_le90"
+model[6]="oriented_rcnn_swin_tiny_fpn_1x_dota_ms_rr_le90"
 
 for model_i in ${model[*]}
 do

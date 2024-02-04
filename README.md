@@ -24,13 +24,12 @@
 ```shell
 # 受到 https://github.com/state-spaces/mamba 要求：PyTorch 1.12+ CUDA 11.6+
 wget https://developer.download.nvidia.com/compute/cuda/11.6.2/local_installers/cuda_11.6.2_510.47.03_linux.run
-chmod +x cuda_11.6.2_510.47.03_linux.run
-sudo sh cuda_11.6.2_510.47.03_linux.run
+chmod +x ./cuda_11.6.2_510.47.03_linux.run
+sudo ./cuda_11.6.2_510.47.03_linux.run
 # cuda 11.6对应cudnn 8.4.0
-# tar -xf cudnn-linux-x86_64-8.4.0.27_cuda11.6-archive.tar.xz
-tar -xf cudnn-linux-x86_64-8.4.1.50_cuda11.6-archive.tar.xz
-sudo cp cudnn-linux-x86_64-8.4.1.50_cuda11.6-archive/include/* /usr/local/cuda-11.6/include/
-sudo cp cudnn-linux-x86_64-8.4.1.50_cuda11.6-archive/lib/* /usr/local/cuda-11.6/lib64/
+# tar -xf cudnn-linux-x86_64-8.4.1.50_cuda11.6-archive.tar.xz
+# sudo cp cudnn-linux-x86_64-8.4.1.50_cuda11.6-archive/include/* /usr/local/cuda-11.6/include/
+# sudo cp cudnn-linux-x86_64-8.4.1.50_cuda11.6-archive/lib/* /usr/local/cuda-11.6/lib64/
 # 
 # vi ~/.bashrc
 # Add CUDA path
@@ -42,6 +41,9 @@ export NCCL_IB_DISABLE="1"
 source ~/.bashrc
 nvcc -V
 # 
+# NO sudo when install anaconda
+# chmod +x ./Anaconda3-2023.09-0-Linux-x86_64.sh
+# ./Anaconda3-2023.09-0-Linux-x86_64.sh
 conda create -n openmmlab23 python=3.8 -y
 conda activate openmmlab23
 conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.6 -c pytorch -c conda-forge
@@ -80,29 +82,39 @@ wget https://github.com/state-spaces/mamba/releases/download/v1.1.1/mamba_ssm-1.
 pip install mamba_ssm-1.1.1+cu118torch1.12cxx11abiFALSE-cp38-cp38-linux_x86_64.whl
 ```
 
-## DOTA_devkit安装
-
-```shell
-sudo apt install swig
-swig -c++ -python polyiou.i
-python setup.py build_ext --inplace
-```
-
 ## DOTA数据集创建
 
 使用官网下载的数据集解压创建
 
 ```shell
-python md5_calc.py --path /Dataset/DOTA/train.tar.gz
+# 请先准备好与mmrotate主目录并列的mmrotate-data和mmrotate-tools文件夹
+# 以下命令均在mmrotate主目录下执行
+# 
+# ln -s /Workspace/Dataset/DOTA/ ../mmrotate-data/data/
+# 
+ln -s ../mmrotate-data/data/ ./
+ln -s ../mmrotate-data/work_dirs/ ./
+# 
+python ../mmrotate-tools/md5_calc.py --path ./data/DOTA/train.tar.gz
 # cfb5007ada913241e02c24484e12d5d2
-python md5_calc.py --path /Dataset/DOTA/val.tar.gz
+python ../mmrotate-tools/md5_calc.py --path ./data/DOTA/val.tar.gz
 # a53e74b0d69dacf3ffcb438accd60c45
-tar -xzf /Dataset/DOTA/train.tar.gz -C /Dataset/DOTA/
-tar -xzf /Dataset/DOTA/val.tar.gz -C /Dataset/DOTA/
-python dir_list.py --path /Dataset/DOTA/train/images/ --output /Dataset/DOTA/train/trainset.txt
+python ../mmrotate-tools/md5_calc.py --path ./data/DOTA/test/part1.zip
+# d3028e48da64b37ad2f2f5f31059e0da
+python ../mmrotate-tools/md5_calc.py --path ./data/DOTA/test/part2.zip
+# 99f779850cc44b8f8b28d348494c6b41
+# 
+tar -xzf ./data/DOTA/train.tar.gz -C ./data/DOTA/
+tar -xzf ./data/DOTA/val.tar.gz -C ./data/DOTA/
+unzip ./data/DOTA/test/part1.zip -d ./data/DOTA/test/
+unzip ./data/DOTA/test/part2.zip -d ./data/DOTA/test/
+# 
+python ../mmrotate-tools/dir_list.py --path ./data/DOTA/train/images/ --output ./data/DOTA/train/trainset.txt
 # 1411
-python dir_list.py --path /Dataset/DOTA/val/images/ --output /Dataset/DOTA/val/valset.txt
+python ../mmrotate-tools/dir_list.py --path ./data/DOTA/val/images/ --output ./data/DOTA/val/valset.txt
 # 458
+python ../mmrotate-tools/dir_list.py --path ./data/DOTA/test/images/ --output ./data/DOTA/test/testset.txt
+# 937
 ```
 
 mmrotate分割处理
@@ -123,6 +135,14 @@ python tools/data/dota/split/img_split.py --base-json tools/data/dota/split/spli
 ```
 
 预训练模型目录为./data/pretrained/
+
+## DOTA_devkit安装
+
+```shell
+sudo apt install swig
+swig -c++ -python polyiou.i
+python setup.py build_ext --inplace
+```
 
 ## DOTA数据集训练与合并测试
 
@@ -160,19 +180,16 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
 
 ## Performance
 
-所有的训练和测试均在4×A100卡上进行。每张卡上的batch_size均为4，初始学习率均为1e-4，训练epoch数均为12。
+所有的训练和测试均在4×A100卡上进行。
 
-<table border="9" align="center">
-    <tr >
+<table border="11" align="center">
+    <tr align="center">
         <td >Detector</td>
         <td >Backbone</td>
+        <td >batch_size</td>
         <td >
-            Training<br>
-            Cost<br>
-        </td>
-        <td >
-            Testing<br>
-            FPS<br>
+            init_lr<br>
+            ×e-4<br>
         </td>
         <td >
             split&nbsp;mAP<br>
@@ -182,53 +199,98 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
             merge&nbsp;mAP<br>
             (5297)<br>
         </td>
+        <td >
+            Training<br>
+            Cost<br>
+        </td>
+        <td >
+            Testing<br>
+            FPS<br>
+        </td>
         <td >Params</td>
         <td >FLOPs</td>
         <td >Configs</td>
     </tr>
-    <tr >
-        <td rowspan="6">
+    <tr align="center">
+        <td rowspan="12">
             Rotated<br>
             Faster&nbsp;RCNN<br>
+            (1x&nbsp;ss)<br>
         </td>
-        <td > Swin-T </td> <td>0.8h</td> <td> 83.2</td> <td>70.11</td> <td>72.62</td> <td> 44.76M</td> <td>215.54G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+        <td rowspan="2"> Swin-T </td> <td>4*4</td> <td>1</td> <td>70.11</td> <td>72.62</td> <td>0.8h</td> <td> 83.2</td> <td> 44.76M</td> <td>215.54G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_tiny_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td > Swin-S </td> <td>2.0h</td> <td> 55.7</td> <td>70.39</td> <td>73.22</td> <td> 66.08M</td> <td>308.28G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_small_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>70.55</td> <td>73.34</td></tr>
+    <tr align="center">
+        <td rowspan="2"> Swin-S </td> <td>4*4</td> <td>1</td> <td>70.39</td> <td>73.22</td> <td>2.0h</td> <td> 55.7</td> <td> 66.08M</td> <td>308.28G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_small_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td > Swin-B </td> <td>2.8h</td> <td> 42.9</td> <td>71.73</td> <td>73.91</td> <td>104.11M</td> <td>455.35G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_base_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>72.23</td> <td>73.77</td></tr>
+    <tr align="center">
+        <td rowspan="2"> Swin-B </td> <td>4*4</td> <td>1</td> <td>71.73</td> <td>73.91</td> <td>2.8h</td> <td> 42.9</td> <td>104.11M</td> <td>455.35G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_swin_base_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td >VMamba-T</td> <td>1.7h</td> <td> 62.2</td> <td>72.12</td> <td>74.09</td> <td> 39.37M</td> <td>179.42G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>73.16</td> <td>74.41</td></tr>
+    <tr align="center">
+        <td rowspan="2">VMamba-T</td> <td>4*4</td> <td>1</td> <td>72.12</td> <td>74.09</td> <td>1.7h</td> <td> 62.2</td> <td> 39.37M</td> <td>179.42G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td >VMamba-S</td> <td>4.0h</td> <td> 34.2</td> <td>72.24</td> <td>74.52</td> <td> 60.89M</td> <td>245.38G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_small_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>73.01</td> <td>75.05</td></tr>
+    <tr align="center">
+        <td rowspan="2">VMamba-S</td> <td>4*4</td> <td>1</td> <td>72.24</td> <td>74.52</td> <td>4.0h</td> <td> 34.2</td> <td> 60.89M</td> <td>245.38G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_small_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td >VMamba-B</td> <td>5.0h</td> <td> 26.3</td> <td>73.20</td> <td>75.07</td> <td> 92.59M</td> <td>342.89G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_base_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>73.27</td> <td>75.08</td></tr>
+    <tr align="center">
+        <td rowspan="2">VMamba-B</td> <td>4*4</td> <td>1</td> <td>73.20</td> <td>75.07</td> <td>5.0h</td> <td> 26.3</td> <td> 92.59M</td> <td>342.89G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_base_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td rowspan="6">
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>73.05</td> <td>75.23</td></tr>
+    <tr align="center">
+        <td rowspan="12">
             Rotated<br>
             RetinaNet<br>
+            (1x&nbsp;ss)<br>
         </td>
-        <td > Swin-T </td> <td>0.7h</td> <td>108.6</td> <td>67.14</td> <td>68.68</td> <td> 37.13M</td> <td>222.08G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_swin_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+        <td rowspan="2"> Swin-T </td> <td>4*4</td> <td>1</td> <td>67.14</td> <td>68.68</td> <td>0.7h</td> <td>108.6</td> <td> 37.13M</td> <td>222.08G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_swin_tiny_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td > Swin-S </td> <td>1.9h</td> <td> 60.3</td> <td>67.54</td> <td>69.66</td> <td> 58.45M</td> <td>314.82G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_swin_small_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>66.91</td> <td>68.72</td></tr>
+    <tr align="center">
+        <td rowspan="2"> Swin-S </td> <td>4*4</td> <td>1</td> <td>67.54</td> <td>69.66</td> <td>1.9h</td> <td> 60.3</td> <td> 58.45M</td> <td>314.82G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_swin_small_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td > Swin-B </td> <td>2.7h</td> <td> 45.3</td> <td>68.48</td> <td>70.56</td> <td> 97.06M</td> <td>461.50G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_swin_base_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>68.22</td> <td>70.13</td></tr>
+    <tr align="center">
+        <td rowspan="2"> Swin-B </td> <td>4*4</td> <td>1</td> <td>68.48</td> <td>70.56</td> <td>2.7h</td> <td> 45.3</td> <td> 97.06M</td> <td>461.50G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_swin_base_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td >VMamba-T</td> <td>1.6h</td> <td> 62.6</td> <td>68.14</td> <td>69.77</td> <td> 31.74M</td> <td>185.95G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>68.60</td> <td>70.65</td></tr>
+    <tr align="center">
+        <td rowspan="2">VMamba-T</td> <td>4*4</td> <td>1</td> <td>68.14</td> <td>69.77</td> <td>1.6h</td> <td> 62.6</td> <td> 31.74M</td> <td>185.95G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td >VMamba-S</td> <td>3.9h</td> <td> 35.4</td> <td>69.36</td> <td>71.44</td> <td> 53.26M</td> <td>251.92G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_small_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>69.50</td> <td>71.12</td></tr>
+    <tr align="center">
+        <td rowspan="2">VMamba-S</td> <td>4*4</td> <td>1</td> <td>69.36</td> <td>71.44</td> <td>3.9h</td> <td> 35.4</td> <td> 53.26M</td> <td>251.92G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_small_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
-    <tr >
-        <td >VMamba-B</td> <td>4.9h</td> <td> 26.8</td> <td>69.94</td> <td>71.99</td> <td> 85.55M</td> <td>349.03G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_base_fpn_1x_dota_le90.py">cfg</a></td>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>69.19</td> <td>71.78</td></tr>
+    <tr align="center">
+        <td rowspan="2">VMamba-B</td> <td>4*4</td> <td>1</td> <td>69.94</td> <td>71.99</td> <td>4.9h</td> <td> 26.8</td> <td> 85.55M</td> <td>349.03G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_base_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>70.28</td> <td>72.07</td></tr>
+    <tr align="center">
+        <td rowspan="6">
+            Oriented<br>
+            RCNN<br>
+            (1x&nbsp;msrr)<br>
+        </td>
+        <td > Swin-T </td> <td>4*4</td> <td>2</td> <td>??.??</td> <td>??.??</td> <td>?.?h</td> <td> ??.?</td> <td> ??.??M</td> <td>???.??G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_swin_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr align="center">
+        <td > Swin-S </td> <td>4*4</td> <td>2</td> <td>??.??</td> <td>??.??</td> <td>?.?h</td> <td> ??.?</td> <td> ??.??M</td> <td>???.??G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_swin_small_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr align="center">
+        <td > Swin-B </td> <td>4*4</td> <td>2</td> <td>??.??</td> <td>??.??</td> <td>?.?h</td> <td> ??.?</td> <td> ??.??M</td> <td>???.??G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_swin_base_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr align="center">
+        <td >VMamba-T</td> <td>4*4</td> <td>2</td> <td>??.??</td> <td>??.??</td> <td>?.?h</td> <td> ??.?</td> <td> ??.??M</td> <td>???.??G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr align="center">
+        <td >VMamba-S</td> <td>4*4</td> <td>2</td> <td>??.??</td> <td>??.??</td> <td>?.?h</td> <td> ??.?</td> <td> ??.??M</td> <td>???.??G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_small_fpn_1x_dota_le90.py">cfg</a></td>
+    </tr>
+    <tr align="center">
+        <td >VMamba-B</td> <td>4*4</td> <td>2</td> <td>??.??</td> <td>??.??</td> <td>?.?h</td> <td> ??.?</td> <td> ??.??M</td> <td>???.??G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_base_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
 </table>
 
@@ -242,5 +304,5 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
 
 Copyright (c) 2024 Marina Akitsuki. All rights reserved.
 
-Date modified: 2024/01/26
+Date modified: 2024/02/04
 

@@ -276,22 +276,22 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
             RCNN<br>
             (1x&nbsp;msrr)<br>
         </td>
-        <td > Swin-T </td> <td>4*4</td> <td>2</td> <td>87.77</td> <td>81.25</td> <td> 4.6h</td> <td> 99.2</td> <td> 44.76M</td> <td>215.68G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_swin_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+        <td > Swin-T </td> <td>4*4</td> <td>2</td> <td>87.77</td> <td>81.25</td> <td> 4.6h</td> <td> 99.2</td> <td> 44.76M</td> <td>215.68G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_swin_tiny_fpn_1x_dota_ms_rr_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
-        <td > Swin-S </td> <td>4*4</td> <td>2</td> <td>89.11</td> <td>81.14</td> <td>12.5h</td> <td> 59.9</td> <td> 66.08M</td> <td>308.42G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_swin_small_fpn_1x_dota_le90.py">cfg</a></td>
+        <td > Swin-S </td> <td>4*4</td> <td>2</td> <td>89.11</td> <td>81.14</td> <td>12.5h</td> <td> 59.9</td> <td> 66.08M</td> <td>308.42G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_swin_small_fpn_1x_dota_ms_rr_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
-        <td > Swin-B </td> <td>4*4</td> <td>2</td> <td>89.12</td> <td>81.26</td> <td>17.5h</td> <td> 44.5</td> <td>104.11M</td> <td>455.49G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_swin_base_fpn_1x_dota_le90.py">cfg</a></td>
+        <td > Swin-B </td> <td>4*4</td> <td>2</td> <td>89.12</td> <td>81.26</td> <td>17.5h</td> <td> 44.5</td> <td>104.11M</td> <td>455.49G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_swin_base_fpn_1x_dota_ms_rr_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
-        <td >VMamba-T</td> <td>4*4</td> <td>2</td> <td>89.58</td> <td>80.11</td> <td>10.5h</td> <td> 64.8</td> <td> 39.37M</td> <td>179.55G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
+        <td >VMamba-T</td> <td>4*4</td> <td>2</td> <td>89.58</td> <td>80.11</td> <td>10.5h</td> <td> 64.8</td> <td> 39.37M</td> <td>179.55G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_tiny_fpn_1x_dota_ms_rr_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
-        <td >VMamba-S</td> <td>4*4</td> <td>2</td> <td>90.24</td> <td>80.43</td> <td>25.9h</td> <td> 34.7</td> <td> 60.89M</td> <td>245.52G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_small_fpn_1x_dota_le90.py">cfg</a></td>
+        <td >VMamba-S</td> <td>4*4</td> <td>2</td> <td>90.24</td> <td>80.43</td> <td>25.9h</td> <td> 34.7</td> <td> 60.89M</td> <td>245.52G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_small_fpn_1x_dota_ms_rr_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
-        <td >VMamba-B</td> <td>4*4</td> <td>2</td> <td>90.69</td> <td>80.16</td> <td>31.5h</td> <td> 26.7</td> <td> 92.60M</td> <td>343.02G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_base_fpn_1x_dota_le90.py">cfg</a></td>
+        <td >VMamba-B</td> <td>4*4</td> <td>2</td> <td>90.69</td> <td>80.16</td> <td>31.5h</td> <td> 26.7</td> <td> 92.60M</td> <td>343.02G</td> <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_base_fpn_1x_dota_ms_rr_le90.py">cfg</a></td>
     </tr>
 </table>
 

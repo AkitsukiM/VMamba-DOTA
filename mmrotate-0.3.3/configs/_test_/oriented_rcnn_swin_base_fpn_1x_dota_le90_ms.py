@@ -1,4 +1,4 @@
-_base_ = './oriented_rcnn_swin_tiny_fpn_1x_dota_ms_rr_le90.py'
+_base_ = './oriented_rcnn_swin_tiny_fpn_1x_dota_ms.py'
 
 pretrained = 'data/pretrained/swin_base_patch4_window7_224.pth'
 
@@ -13,4 +13,3 @@ model = dict(
     neck=dict(in_channels=[128, 256, 512, 1024]))
 
 fp16 = None
-

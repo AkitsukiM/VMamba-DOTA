@@ -1,6 +1,6 @@
 _base_ = [
-    '../_base_/_models_/rotated_retinanet_obb_r50_fpn.py',
-    '../_base_/_datasets_/dotav1_ss_valmerge.py',
+    '../_base_/_models_/rotated_faster_rcnn_r50_fpn.py',
+    '../_base_/_datasets_/dotav1_ss.py',
     '../_base_/schedules/schedule_1x.py',
     '../_base_/default_runtime.py'
 ]
@@ -28,7 +28,7 @@ model = dict(
         with_cp=False,
         convert_weights=True,
         init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
-    neck=dict(in_channels=[192, 384, 768], start_level=0, num_outs=5))
+    neck=dict(in_channels=[96, 192, 384, 768]))
 
 data = dict(
     samples_per_gpu=4,

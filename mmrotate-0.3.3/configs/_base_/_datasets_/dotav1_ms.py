@@ -1,7 +1,7 @@
-_base_ = './oriented_rcnn_r50_fpn_1x_dota_le90.py'
-
+# dataset settings
+dataset_type = 'DOTADataset'
 data_ss_root = 'data/split_ss_dota/'
-data_ms_root = 'data/split_ms_dota/'
+data_ss_root = 'data/split_ms_dota/'
 angle_version = 'le90'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -26,14 +26,38 @@ train_pipeline = [
     dict(type='DefaultFormatBundle'),
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
 ]
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(
+        type='MultiScaleFlipAug',
+        img_scale=(1024, 1024),
+        flip=False,
+        transforms=[
+            dict(type='RResize'),
+            dict(type='Normalize', **img_norm_cfg),
+            dict(type='Pad', size_divisor=32),
+            dict(type='DefaultFormatBundle'),
+            dict(type='Collect', keys=['img'])
+        ])
+]
 data = dict(
+    samples_per_gpu=2,
+    workers_per_gpu=2,
     train=dict(
-        pipeline=train_pipeline,
+        type=dataset_type,
         ann_file=data_ms_root + 'trainval/annfiles/',
-        img_prefix=data_ms_root + 'trainval/images/'),
+        img_prefix=data_ms_root + 'trainval/images/',
+        pipeline=train_pipeline,
+        version=angle_version),
     val=dict(
+        type=dataset_type,
         ann_file=data_ss_root + 'val/annfiles/',
-        img_prefix=data_ss_root + 'val/images/'),
+        img_prefix=data_ss_root + 'val/images/',
+        pipeline=test_pipeline,
+        version=angle_version),
     test=dict(
+        type=dataset_type,
         ann_file=data_ms_root + 'test/images/',
-        img_prefix=data_ms_root + 'test/images/'))
+        img_prefix=data_ms_root + 'test/images/',
+        pipeline=test_pipeline,
+        version=angle_version))

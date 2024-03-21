@@ -1,4 +1,9 @@
-_base_ = './rotated_faster_rcnn_r50_fpn_1x_dota_le90.py'
+_base_ = [
+    '../_base_/_models_/rotated_faster_rcnn_r50_fpn.py',
+    '../_base_/_datasets_/dotav1_ss_valmerge.py',
+    '../_base_/schedules/schedule_1x.py',
+    '../_base_/default_runtime.py'
+]
 
 # configs from 'mmdetection-2.25.1/configs/swin/mask_rcnn_swin-t-p4-w7_fpn_1x_coco.py'
 
@@ -29,8 +34,8 @@ data = dict(
     samples_per_gpu=4,
     workers_per_gpu=4)
 
+# NOTE
 # swin paper recommend: batch_size=8*2, init_lr=1e-4
-# if with 8*2080Ti GPU: batch_size=8*1, init_lr=5e-5
 # if with 4*A100   GPU: batch_size=4*4, init_lr=1e-4
 optimizer = dict(
     _delete_=True,
@@ -47,4 +52,3 @@ optimizer = dict(
 
 # you need to set mode='dynamic' if you are using pytorch<=1.5.0
 fp16 = dict(loss_scale=dict(init_scale=512))
-

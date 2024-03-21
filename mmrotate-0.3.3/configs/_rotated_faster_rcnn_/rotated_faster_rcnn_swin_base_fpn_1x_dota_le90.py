@@ -13,4 +13,3 @@ model = dict(
     neck=dict(in_channels=[128, 256, 512, 1024]))
 
 fp16 = None
-

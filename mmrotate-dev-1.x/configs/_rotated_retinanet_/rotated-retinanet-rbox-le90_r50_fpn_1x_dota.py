@@ -1,5 +1,5 @@
 _base_ = [
-    '../_base_/_models_/rotated-faster-rcnn-le90_r50_fpn.py'
+    '../_base_/_models_/rotated-retinanet-rbox-le90_r50_fpn.py'
     '../_base_/_datasets_/dota_ss_valmerge.py',
     '../_base_/schedules/schedule_1x.py',
     '../_base_/default_runtime.py'
@@ -16,4 +16,4 @@ train_dataloader = dict(
     num_workers=4)
 
 test_evaluator = dict(
-    outfile_prefix='./work_dirs/Task1_rotated-faster-rcnn-le90_r50_fpn_1x_dota')
+    outfile_prefix='./work_dirs/Task1_rotated-retinanet-rbox-le90_r50_fpn_1x_dota')

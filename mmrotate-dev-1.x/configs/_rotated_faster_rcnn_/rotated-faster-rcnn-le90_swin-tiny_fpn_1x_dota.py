@@ -1,6 +1,9 @@
-_base_ = './rotated-faster-rcnn-le90_r50_fpn_1x_dota.py'
-
-# configs from '../oriented_rcnn/oriented-rcnn-le90_swin-tiny_fpn_1x_dota.py'
+_base_ = [
+    '../_base_/_models_/rotated-faster-rcnn-le90_r50_fpn.py'
+    '../_base_/_datasets_/dota_ss_valmerge.py',
+    '../_base_/schedules/schedule_1x.py',
+    '../_base_/default_runtime.py'
+]
 
 pretrained = 'data/pretrained/swin_tiny_patch4_window7_224.pth'
 
@@ -43,11 +46,10 @@ optim_wrapper = dict(
 
 # NOTE
 # swin paper recommend: batch_size=8*2, init_lr=1e-4
-# if with 4*A100   GPU: batch_size=4*4, init_lr=1e-4
+# if with 4*A100 GPU  : batch_size=4*4, init_lr=1e-4
 train_dataloader = dict(
     batch_size=4,
     num_workers=4)
 
 test_evaluator = dict(
     outfile_prefix='./work_dirs/Task1_rotated-faster-rcnn-le90_swin-tiny_fpn_1x_dota')
-

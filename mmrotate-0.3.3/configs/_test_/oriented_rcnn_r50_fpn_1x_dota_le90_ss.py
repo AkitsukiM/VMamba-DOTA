@@ -1,6 +1,6 @@
 _base_ = [
-    '../_base_/_models_/rotated_retinanet_obb_r50_fpn.py',
-    '../_base_/_datasets_/dotav1_ss_valmerge.py',
+    '../_base_/_models_/oriented_rcnn_r50_fpn.py',
+    '../_base_/_datasets_/dotav1_ss.py',
     '../_base_/schedules/schedule_1x.py',
     '../_base_/default_runtime.py'
 ]

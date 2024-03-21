@@ -1,4 +1,4 @@
-_base_ = './rotated-faster-rcnn-le90_swin-tiny_fpn_1x_dota.py'
+_base_ = './oriented-rcnn-le90_swin-tiny_fpn_1x_dota.py'
 
 pretrained = 'data/pretrained/swin_base_patch4_window7_224.pth'
 
@@ -14,5 +14,5 @@ model = dict(
     neck=dict(in_channels=[128, 256, 512, 1024]))
 
 test_evaluator = dict(
-    outfile_prefix='./work_dirs/Task1_rotated-faster-rcnn-le90_swin-base_fpn_1x_dota')
+    outfile_prefix='./work_dirs/Task1_oriented-rcnn-le90_swin-base_fpn_1x_dota')
 

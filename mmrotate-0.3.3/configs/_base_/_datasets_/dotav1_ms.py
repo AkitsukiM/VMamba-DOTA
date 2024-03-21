@@ -1,8 +1,8 @@
 # dataset settings
 dataset_type = 'DOTADataset'
 data_ss_root = 'data/split_ss_dota/'
-data_ss_root = 'data/split_ms_dota/'
-angle_version = 'le90'
+data_ms_root = 'data/split_ms_dota/'
+angle_version_le90 = 'le90'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 train_pipeline = [
@@ -13,14 +13,14 @@ train_pipeline = [
         type='RRandomFlip',
         flip_ratio=[0.25, 0.25, 0.25],
         direction=['horizontal', 'vertical', 'diagonal'],
-        version=angle_version),
+        version=angle_version_le90),
     dict(
         type='PolyRandomRotate',
         rotate_ratio=0.5,
         angles_range=180,
         auto_bound=False,
         rect_classes=[9, 11],
-        version=angle_version),
+        version=angle_version_le90),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='Pad', size_divisor=32),
     dict(type='DefaultFormatBundle'),
@@ -48,16 +48,16 @@ data = dict(
         ann_file=data_ms_root + 'trainval/annfiles/',
         img_prefix=data_ms_root + 'trainval/images/',
         pipeline=train_pipeline,
-        version=angle_version),
+        version=angle_version_le90),
     val=dict(
         type=dataset_type,
         ann_file=data_ss_root + 'val/annfiles/',
         img_prefix=data_ss_root + 'val/images/',
         pipeline=test_pipeline,
-        version=angle_version),
+        version=angle_version_le90),
     test=dict(
         type=dataset_type,
         ann_file=data_ms_root + 'test/images/',
         img_prefix=data_ms_root + 'test/images/',
         pipeline=test_pipeline,
-        version=angle_version))
+        version=angle_version_le90))

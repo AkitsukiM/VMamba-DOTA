@@ -24,7 +24,7 @@ model = dict(
         attn_drop_rate=0.,
         drop_path_rate=0.2,
         patch_norm=True,
-        out_indices=(0, 1, 2, 3),
+        out_indices=(1, 2, 3),
         with_cp=False,
         convert_weights=True,
         init_cfg=dict(type='Pretrained', checkpoint=pretrained)),

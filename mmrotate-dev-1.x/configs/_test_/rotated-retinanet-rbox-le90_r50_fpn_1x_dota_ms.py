@@ -10,7 +10,7 @@ optim_wrapper = dict(optimizer=dict(lr=0.020))
 
 # NOTE
 # original recommend: batch_size=1*2, lr=0.005
-# if with 4*A100 GPU: batch_size=4*4, lr=0.040
+# if with 4*A100 GPU: batch_size=4*4, lr=0.020 (?)
 train_dataloader = dict(
     batch_size=4,
     num_workers=4)

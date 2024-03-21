@@ -11,5 +11,5 @@ data = dict(
 
 # NOTE
 # original recommend: batch_size=1*2, lr=0.005
-# if with 4*A100 GPU: batch_size=4*4, lr=0.040
-optimizer=dict(lr=0.040)
+# if with 4*A100 GPU: batch_size=4*4, lr=0.020 (?)
+optimizer=dict(lr=0.020)

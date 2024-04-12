@@ -1,7 +1,7 @@
 # dataset settings
 dataset_type = 'DOTADataset'
-data_ss_root = 'data/split_ss_dota/'
-# data_ms_root = 'data/split_ms_dota/'
+data_root_ss = 'data/split_ss_dota/'
+# data_root_ms = 'data/split_ms_dota/'
 angle_version_le90 = 'le90'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -38,19 +38,19 @@ data = dict(
     workers_per_gpu=2,
     train=dict(
         type=dataset_type,
-        ann_file=data_ss_root + 'train/annfiles/',
-        img_prefix=data_ss_root + 'train/images/',
+        ann_file=data_root_ss + 'train/annfiles/',
+        img_prefix=data_root_ss + 'train/images/',
         pipeline=train_pipeline,
         version=angle_version_le90),
     val=dict(
         type=dataset_type,
-        ann_file=data_ss_root + 'val/annfiles/',
-        img_prefix=data_ss_root + 'val/images/',
+        ann_file=data_root_ss + 'val/annfiles/',
+        img_prefix=data_root_ss + 'val/images/',
         pipeline=test_pipeline,
         version=angle_version_le90),
     test=dict(
         type=dataset_type,
-        ann_file=data_ss_root + 'val/images/',
-        img_prefix=data_ss_root + 'val/images/',
+        ann_file=data_root_ss + 'val/images/',
+        img_prefix=data_root_ss + 'val/images/',
         pipeline=test_pipeline,
         version=angle_version_le90))

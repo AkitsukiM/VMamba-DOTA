@@ -1,5 +1,5 @@
 _base_ = [
-    '../_base_/_models_/rotated-retinanet-rbox-le90_r50_fpn.py'
+    '../_base_/_models_/rotated-retinanet-rbox-le90_r50_fpn.py',
     '../_base_/_datasets_/dota_ms.py',
     '../_base_/schedules/schedule_1x.py',
     '../_base_/default_runtime.py'

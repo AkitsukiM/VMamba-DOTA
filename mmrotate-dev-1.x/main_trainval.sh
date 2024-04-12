@@ -1,7 +1,6 @@
-model[1]="rotated-faster-rcnn-le90_r50_fpn_1x_dota"
-model[2]="rotated-faster-rcnn-le90_swin-tiny_fpn_1x_dota"
-model[3]="rotated-faster-rcnn-le90_swin-small_fpn_1x_dota"
-model[4]="rotated-faster-rcnn-le90_swin-base_fpn_1x_dota"
+model[1]="oriented-rcnn-le90_vmamba-base_fpn_1x_dota"
+model[2]="oriented-rcnn-le90_vmamba-small_fpn_1x_dota"
+model[3]="oriented-rcnn-le90_vmamba-tiny_fpn_1x_dota"
 
 for model_i in ${model[*]}
 do

@@ -11,4 +11,3 @@ model = dict(
 
 test_evaluator = dict(
     outfile_prefix='./work_dirs/Task1_rotated-faster-rcnn-le90_swin-small_fpn_1x_dota')
-

@@ -1,15 +1,6 @@
-model[1]="oriented-rcnn-le90_r50_fpn_1x_dota_ms"
-model[2]="oriented-rcnn-le90_r50_fpn_1x_dota_ss"
-model[3]="oriented-rcnn-le90_swin-tiny_fpn_1x_dota_ms"
-model[4]="oriented-rcnn-le90_swin-tiny_fpn_1x_dota_ss"
-model[5]="rotated-faster-rcnn-le90_r50_fpn_1x_dota_ms"
-model[6]="rotated-faster-rcnn-le90_r50_fpn_1x_dota_ss"
-model[7]="rotated-faster-rcnn-le90_swin-tiny_fpn_1x_dota_ms"
-model[8]="rotated-faster-rcnn-le90_swin-tiny_fpn_1x_dota_ss"
-model[9]="rotated-retinanet-rbox-le90_r50_fpn_1x_dota_ms"
-model[10]="rotated-retinanet-rbox-le90_r50_fpn_1x_dota_ss"
-model[11]="rotated-retinanet-rbox-le90_swin-tiny_fpn_1x_dota_ms"
-model[12]="rotated-retinanet-rbox-le90_swin-tiny_fpn_1x_dota_ss"
+model[1]="oriented-rcnn-le90_vmamba-base_fpn_1x_dota_ms"
+model[2]="oriented-rcnn-le90_vmamba-small_fpn_1x_dota_ms"
+model[3]="oriented-rcnn-le90_vmamba-tiny_fpn_1x_dota_ms"
 
 for model_i in ${model[*]}
 do

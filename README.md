@@ -219,7 +219,7 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
         <td >Configs</td>
     </tr>
     <tr align="center">
-        <td rowspan="12">
+        <td rowspan="18">
             Rotated<br>
             RetinaNet<br>
             (1x&nbsp;ss)<br>
@@ -242,6 +242,24 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">               <td>4*4</td> <td>2</td> <td>68.60</td> <td>70.65</td></tr>
     <tr align="center">
+        <td rowspan="2"> VHeat-T</td> <td>4*4</td> <td>1</td> <td>69.08</td> <td>71.41</td> 
+          <td rowspan="2">0.7h</td> <td rowspan="2">101.7</td> <td rowspan="2">   ?   </td> <td rowspan="2">   ?   </td> 
+            <td rowspan="2"> - </td>
+    </tr>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>69.91</td> <td>71.81</td></tr>
+    <tr align="center">
+        <td rowspan="2"> VHeat-S</td> <td> - </td> <td>-</td> <td>  -  </td> <td>  -  </td> 
+          <td rowspan="2">  - </td> <td rowspan="2">  -  </td> <td rowspan="2">   -   </td> <td rowspan="2">   -   </td> 
+            <td rowspan="2"> - </a></td>
+    </tr>
+    <tr align="center">               <td> - </td> <td>-</td> <td>  -  </td> <td>  -  </td></tr>
+    <tr align="center">
+        <td rowspan="2"> VHeat-B</td> <td>4*4</td> <td>1</td> <td>68.43</td> <td>71.68</td> 
+          <td rowspan="2">2.0h</td> <td rowspan="2"> 63.0</td> <td rowspan="2">   ?   </td> <td rowspan="2">   ?   </td> 
+            <td rowspan="2"> - </td>
+    </tr>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>69.42</td> <td>72.02</td></tr>
+    <tr align="center">
         <td rowspan="2">VMamba-T</td> <td>4*4</td> <td>1</td> <td>68.99</td> <td>71.28</td> 
           <td rowspan="2">0.9h</td> <td rowspan="2"> 94.4</td> <td rowspan="2">   ?   </td> <td rowspan="2">   ?   </td> 
             <td rowspan="2"><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
@@ -260,7 +278,7 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">               <td>4*4</td> <td>2</td> <td>69.99</td> <td>72.03</td></tr>
     <tr align="center">
-        <td rowspan="12">
+        <td rowspan="18">
             Rotated<br>
             Faster&nbsp;RCNN<br>
             (1x&nbsp;ss)<br>
@@ -283,6 +301,24 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">               <td>4*4</td> <td>2</td> <td>73.16</td> <td>74.41</td></tr>
     <tr align="center">
+        <td rowspan="2"> VHeat-T</td> <td>4*4</td> <td>1</td> <td>72.38</td> <td>74.05</td> 
+          <td rowspan="2">0.8h</td> <td rowspan="2"> 98.9</td> <td rowspan="2">   ?   </td> <td rowspan="2">   ?   </td> 
+            <td rowspan="2"> - </td>
+    </tr>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>72.07</td> <td>74.42</td></tr>
+    <tr align="center">
+        <td rowspan="2"> VHeat-S</td> <td> - </td> <td>-</td> <td>  -  </td> <td>  -  </td> 
+          <td rowspan="2">  - </td> <td rowspan="2">  -  </td> <td rowspan="2">   -   </td> <td rowspan="2">   -   </td> 
+            <td rowspan="2"> - </a></td>
+    </tr>
+    <tr align="center">               <td> - </td> <td>-</td> <td>  -  </td> <td>  -  </td></tr>
+    <tr align="center">
+        <td rowspan="2"> VHeat-B</td> <td>4*4</td> <td>1</td> <td>72.48</td> <td>74.33</td> 
+          <td rowspan="2">2.1h</td> <td rowspan="2"> 59.6</td> <td rowspan="2">   ?   </td> <td rowspan="2">   ?   </td> 
+            <td rowspan="2"> - </td>
+    </tr>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>72.70</td> <td>74.82</td></tr>
+    <tr align="center">
         <td rowspan="2">VMamba-T</td> <td>4*4</td> <td>1</td> <td>73.72</td> <td>74.75</td> 
           <td rowspan="2">1.0h</td> <td rowspan="2"> 90.0</td> <td rowspan="2">   ?   </td> <td rowspan="2">   ?   </td> 
             <td rowspan="2"><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
@@ -301,7 +337,7 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">               <td>4*4</td> <td>2</td> <td>74.27</td> <td>75.63</td></tr>
     <tr align="center">
-        <td rowspan="12">
+        <td rowspan="18">
             Oriented<br>
             RCNN<br>
             (1x&nbsp;ss)<br>
@@ -324,6 +360,24 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">               <td>4*4</td> <td>2</td> <td>74.41</td> <td>76.38</td></tr>
     <tr align="center">
+        <td rowspan="2"> VHeat-T</td> <td>4*4</td> <td>1</td> <td>74.35</td> <td>76.22</td> 
+          <td rowspan="2">0.8h</td> <td rowspan="2"> 94.8</td> <td rowspan="2">   ?   </td> <td rowspan="2">   ?   </td> 
+            <td rowspan="2"> - </td>
+    </tr>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>74.88</td> <td>76.78</td></tr>
+    <tr align="center">
+        <td rowspan="2"> VHeat-S</td> <td> - </td> <td>-</td> <td>  -  </td> <td>  -  </td> 
+          <td rowspan="2">  - </td> <td rowspan="2">  -  </td> <td rowspan="2">   -   </td> <td rowspan="2">   -   </td> 
+            <td rowspan="2"> - </a></td>
+    </tr>
+    <tr align="center">               <td> - </td> <td>-</td> <td>  -  </td> <td>  -  </td></tr>
+    <tr align="center">
+        <td rowspan="2"> VHeat-B</td> <td>4*4</td> <td>1</td> <td>75.27</td> <td>76.36</td> 
+          <td rowspan="2">2.2h</td> <td rowspan="2"> 57.6</td> <td rowspan="2">   ?   </td> <td rowspan="2">   ?   </td> 
+            <td rowspan="2"> - </td>
+    </tr>
+    <tr align="center">               <td>4*4</td> <td>2</td> <td>75.23</td> <td>77.35</td></tr>
+    <tr align="center">
         <td rowspan="2">VMamba-T</td> <td>4*4</td> <td>1</td> <td>76.24</td> <td>76.51</td> 
           <td rowspan="2">1.0h</td> <td rowspan="2"> 86.6</td> <td rowspan="2">   ?   </td> <td rowspan="2">   ?   </td> 
             <td rowspan="2"><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vmamba_tiny_fpn_1x_dota_le90.py">cfg</a></td>
@@ -342,7 +396,7 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">               <td>4*4</td> <td>2</td> <td>76.25</td> <td>77.61</td></tr>
     <tr align="center">
-        <td rowspan="6">
+        <td rowspan="9">
             Oriented<br>
             RCNN<br>
             (1x&nbsp;msrr)<br>
@@ -360,6 +414,21 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
         <td            > Swin-B </td> <td>4*4</td> <td>2</td> <td>89.12</td> <td>81.26</td> 
           <td>17.5h</td> <td></td> <td></td> <td></td> 
             <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_test_/oriented_rcnn_swin_base_fpn_1x_dota_le90_ms.py">cfg</a></td>
+    </tr>
+    <tr align="center">
+        <td            > VHeat-T</td> <td>4*4</td> <td>2</td> <td>88.91</td> <td>81.53</td> 
+          <td> 4.9h</td> <td></td> <td></td> <td></td> 
+            <td> - </td>
+    </tr>
+    <tr align="center">
+        <td            > VHeat-S</td> <td> - </td> <td>-</td> <td>  -  </td> <td>  -  </td> 
+          <td>  -  </td> <td></td> <td></td> <td></td> 
+            <td> - </td>
+    </tr>
+    <tr align="center">
+        <td            > VHeat-B</td> <td>4*4</td> <td>2</td> <td>90.09</td> <td>81.17</td> 
+          <td>14.0h</td> <td></td> <td></td> <td></td> 
+            <td> - </td>
     </tr>
     <tr align="center">
         <td            >VMamba-T</td> <td>4*4</td> <td>2</td> <td>89.06</td> <td>81.20</td> 
@@ -386,5 +455,5 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
 
 Copyright (c) 2024 Marina Akitsuki. All rights reserved.
 
-Date modified: 2024/04/12
+Date modified: 2024/04/19
 

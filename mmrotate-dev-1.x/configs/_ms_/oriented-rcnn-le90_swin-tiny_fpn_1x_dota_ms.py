@@ -1,6 +1,6 @@
 _base_ = [
     '../_base_/_models_/oriented-rcnn-le90_r50_fpn.py',
-    '../_base_/_datasets_/dota_ss.py',
+    '../_base_/_datasets_/dota_ms.py',
     '../_base_/schedules/schedule_1x.py',
     '../_base_/default_runtime.py'
 ]
@@ -34,7 +34,7 @@ optim_wrapper = dict(
     optimizer=dict(
         _delete_=True,
         type='AdamW',
-        lr=2e-4, # 0.0001,
+        lr=1e-4,
         betas=(0.9, 0.999),
         weight_decay=0.05),
     paramwise_cfg=dict(
@@ -52,4 +52,4 @@ train_dataloader = dict(
     num_workers=4)
 
 test_evaluator = dict(
-    outfile_prefix='./work_dirs/Task1_oriented-rcnn-le90_swin-tiny_fpn_1x_dota_ss')
+    outfile_prefix='./work_dirs/Task1_oriented-rcnn-le90_swin-tiny_fpn_1x_dota')

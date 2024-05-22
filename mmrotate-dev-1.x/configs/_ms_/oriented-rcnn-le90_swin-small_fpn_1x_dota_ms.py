@@ -10,4 +10,4 @@ model = dict(
         init_cfg=dict(type='Pretrained', checkpoint=pretrained)))
 
 test_evaluator = dict(
-    outfile_prefix='./work_dirs/Task1_oriented-rcnn-le90_swin-small_fpn_1x_dota_ms')
+    outfile_prefix='./work_dirs/Task1_oriented-rcnn-le90_swin-small_fpn_1x_dota')

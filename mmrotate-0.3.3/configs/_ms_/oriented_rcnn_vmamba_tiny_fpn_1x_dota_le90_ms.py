@@ -5,29 +5,33 @@ _base_ = [
     '../_base_/default_runtime.py'
 ]
 
-# configs from 'mmdetection-2.25.1/configs/swin/mask_rcnn_swin-t-p4-w7_fpn_1x_coco.py'
+# pretrained = 'data/pretrained/vssm_tiny_0230_ckpt_epoch_262.pth'
+pretrained = 'data/pretrained/vssm1_tiny_0230s_ckpt_epoch_264.pth'
 
-pretrained = 'data/pretrained/swin_tiny_patch4_window7_224.pth'
-
+angle_version = 'le90'
 model = dict(
     backbone=dict(
         _delete_=True,
-        type='SwinTransformer',
-        embed_dims=96,
-        depths=[2, 2, 6, 2],
-        num_heads=[3, 6, 12, 24],
-        window_size=7,
-        mlp_ratio=4,
-        qkv_bias=True,
-        qk_scale=None,
-        drop_rate=0.,
-        attn_drop_rate=0.,
-        drop_path_rate=0.2,
-        patch_norm=True,
+        type='MM_VSSM',
         out_indices=(0, 1, 2, 3),
-        with_cp=False,
-        convert_weights=True,
-        init_cfg=dict(type='Pretrained', checkpoint=pretrained)),
+        pretrained=pretrained,
+        # copied from https://github.com/MzeroMiko/VMamba/blob/main/detection/configs/vssm1/mask_rcnn_vssm_fpn_coco_tiny.py
+        dims=96,
+        # depths=(2, 2, 5, 2),
+        depths=(2, 2, 8, 2),
+        ssm_d_state=1,
+        ssm_dt_rank="auto",
+        # ssm_ratio=2.0,
+        ssm_ratio=1.0,
+        ssm_conv=3,
+        ssm_conv_bias=False,
+        forward_type="v05_noz", # v3_noz
+        mlp_ratio=4.0,
+        downsample_version="v3",
+        patchembed_version="v2",
+        drop_path_rate=0.2,
+        norm_layer="ln2d",
+    ),
     neck=dict(in_channels=[96, 192, 384, 768]))
 
 data = dict(
@@ -40,7 +44,7 @@ data = dict(
 optimizer = dict(
     _delete_=True,
     type='AdamW',
-    lr=2e-4, # 1e-4,
+    lr=1e-4,
     betas=(0.9, 0.999),
     weight_decay=0.05,
     paramwise_cfg=dict(

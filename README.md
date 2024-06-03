@@ -9,15 +9,15 @@
 * MMRotate: [main](https://github.com/open-mmlab/mmrotate) [dev-1.x](https://github.com/open-mmlab/mmrotate/tree/dev-1.x)
 * DOTA_devkit: [code](https://github.com/CAPTAIN-WHU/DOTA_devkit)
 * VMamba: [paper](https://arxiv.org/abs/2401.10166) [code](https://github.com/MzeroMiko/VMamba)
-* Mamba: [paper](https://arxiv.org/abs/2312.00752) [code](https://github.com/state-spaces/mamba)
+* VHeat: [paper](https://arxiv.org/abs/2405.16555) [code](https://github.com/MzeroMiko/vHeat)
 
-本项目基于2024/05/14版本的VMamba代码编写。
+本项目基于2024/05/30版本的VMamba代码和VHeat代码编写。
 
 本项目组织方式：
 
-* 把"VMamba/classification/models/"文件夹作为"mmrotate/models/backbones/vmamba_models/"文件夹
-* 把"VMamba/detection/model.py"文件作为"mmrotate/models/backbones/vmamba_model.py"文件并修改"\_\_init\_\_.py"
-* 制作vmamba的config文件
+* 把"VMamba/classification/models/"文件夹作为"mmrotate/models/backbones/vmamba_models/"文件夹，把"vHeat/detection/vHeat/"文件夹作为"mmrotate/models/backbones/vheat_models/"文件夹
+* 把"VMamba/detection/model.py"文件作为"mmrotate/models/backbones/vmamba_model.py"文件，把"vheat/detection/model.py"文件作为"mmrotate/models/backbones/vheat_model.py"文件，并修改"\_\_init\_\_.py"
+* 制作vmamba和VHeat的config文件
 * 迁移"VMamba/kernels/"文件夹
 
 ## mmrotate-0.3.3/0.3.4/dev-1.x安装
@@ -26,16 +26,17 @@
 
 ```shell
 # 受到 https://github.com/state-spaces/mamba 要求：PyTorch 1.12+ CUDA 11.6+
+# wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
+# chmod +x ./cuda_11.7.1_515.65.01_linux.run
+# sudo sh cuda_11.7.1_515.65.01_linux.run
 wget https://developer.download.nvidia.com/compute/cuda/11.6.2/local_installers/cuda_11.6.2_510.47.03_linux.run
 chmod +x ./cuda_11.6.2_510.47.03_linux.run
 sudo ./cuda_11.6.2_510.47.03_linux.run
-# cuda 11.6对应cudnn 8.4.0
-# tar -xf cudnn-linux-x86_64-8.4.1.50_cuda11.6-archive.tar.xz
-# sudo cp cudnn-linux-x86_64-8.4.1.50_cuda11.6-archive/include/* /usr/local/cuda-11.6/include/
-# sudo cp cudnn-linux-x86_64-8.4.1.50_cuda11.6-archive/lib/* /usr/local/cuda-11.6/lib64/
 # 
 # vi ~/.bashrc
 # Add CUDA path
+# export PATH=/usr/local/cuda-11.7/bin:$PATH
+# export LD_LIBRARY_PATH=/usr/local/cuda-11.7/lib64:$LD_LIBRARY_PATH
 export PATH=/usr/local/cuda-11.6/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/cuda-11.6/lib64:$LD_LIBRARY_PATH
 export NCCL_P2P_DISABLE="1"
@@ -48,29 +49,16 @@ nvcc -V
 # chmod +x ./Anaconda3-2023.09-0-Linux-x86_64.sh
 # ./Anaconda3-2023.09-0-Linux-x86_64.sh
 # 
-# 此处存疑，我自己使用的是pytorch==1.12.1，有报告称高版本PyTorch可能会对Swin Transformer有性能增益具体不明
-# conda create -n openmmlab1131 python=3.8 -y
+# conda create -n openmmlab1131 python=3.9 -y
 # conda activate openmmlab1131
 # # ref: https://pytorch.org/get-started/previous-versions/#v1131
-# conda install pytorch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 pytorch-cuda=11.6 -c pytorch -c nvidia
+# conda install pytorch==1.13.1 torchvision==0.14.1 torchaudio==0.13.1 pytorch-cuda=11.7 -c pytorch -c nvidia
 conda create -n openmmlab1121 python=3.8 -y
 conda activate openmmlab1121
 # ref: https://pytorch.org/get-started/previous-versions/#v1121
 conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit=11.6 -c pytorch -c conda-forge
+# 
 pip install shapely tqdm timm
-# 
-# if mmrotate-0.3.3/0.3.4
-pip install openmim
-mim install mmcv-full==1.6.1
-mim install mmdet==2.25.1
-git clone https://github.com/open-mmlab/mmrotate.git
-cd mmrotate
-pip install -r requirements/build.txt
-pip install -v -e .
-# 
-# 降低部分包的版本
-pip install numpy==1.21.5
-pip install yapf==0.40.1
 # 
 # # if mmrotate-dev-1.x
 # pip install -U openmim
@@ -84,9 +72,22 @@ pip install yapf==0.40.1
 # pip install -r requirements/build.txt
 # pip install -v -e .
 # 
+# if mmrotate-0.3.3/0.3.4
+pip install openmim
+mim install mmcv-full==1.6.1
+mim install mmdet==2.25.1
+git clone https://github.com/open-mmlab/mmrotate.git
+cd mmrotate
+pip install -r requirements/build.txt
+pip install -v -e .
+# 
+# 为mmrotate-0.3.3/0.3.4降低部分包的版本
+pip install numpy==1.21.5
+pip install yapf==0.40.1
+# 
 # 安装必要的vmamba依赖
-pip install einops fvcore triton
-cd kernels/selective_scan && pip install .
+pip install einops fvcore triton ninja
+cd kernels/selective_scan/ && pip install . && cd ../../
 ```
 
 ## DOTA数据集创建
@@ -236,15 +237,15 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">
         <td> VHeat-T</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td>  -  </td> <td>   -   </td> <td>   -   </td> 
-            <td> - </td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vheat_tiny_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td> VHeat-S</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td>  -  </td> <td>   -   </td> <td>   -   </td> 
-            <td> - </a></td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vheat_small_fpn_1x_dota_le90.py">cfg</a></a></td>
     </tr>
     <tr align="center">
         <td> VHeat-B</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td>  -  </td> <td>   -   </td> <td>   -   </td> 
-            <td> - </a></td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_retinanet_/rotated_retinanet_obb_vheat_base_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td>VMamba-T</td> <td>4*4</td> <td>1e-4</td> <td>69.15</td> <td>71.11</td> <td>1.0h</td> <td> 91.9</td> <td>   ?   </td> <td>   ?   </td> 
@@ -277,15 +278,15 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">
         <td> VHeat-T</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td>  -  </td> <td>   -   </td> <td>   -   </td> 
-            <td> - </a></td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vheat_tiny_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td> VHeat-S</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td>  -  </td> <td>   -   </td> <td>   -   </td> 
-            <td> - </a></td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vheat_small_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td> VHeat-B</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td>  -  </td> <td>   -   </td> <td>   -   </td> 
-            <td> - </a></td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_rotated_faster_rcnn_/rotated_faster_rcnn_vheat_base_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td>VMamba-T</td> <td>4*4</td> <td>1e-4</td> <td>73.13</td> <td>74.04</td> <td>1.1h</td> <td> 84.0</td> <td>   ?   </td> <td>   ?   </td> 
@@ -318,15 +319,15 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">
         <td> VHeat-T</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td>  -  </td> <td>   -   </td> <td>   -   </td> 
-            <td> - </a></td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vheat_tiny_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td> VHeat-S</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td>  -  </td> <td>   -   </td> <td>   -   </td> 
-            <td> - </a></td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vheat_small_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td> VHeat-B</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td>  -  </td> <td>   -   </td> <td>   -   </td> 
-            <td> - </a></td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_oriented_rcnn_/oriented_rcnn_vheat_base_fpn_1x_dota_le90.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td>VMamba-T</td> <td>4*4</td> <td>1e-4</td> <td>75.95</td> <td>76.59</td> <td>1.1h</td> <td> 79.9</td> <td>   ?   </td> <td>   ?   </td> 
@@ -359,15 +360,15 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
     </tr>
     <tr align="center">
         <td> VHeat-T</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td></td> <td></td> <td></td> 
-            <td> - </a></td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_ms_/oriented_rcnn_vheat_tiny_fpn_1x_dota_le90_ms.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td> VHeat-S</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td></td> <td></td> <td></td> 
-            <td> - </td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_ms_/oriented_rcnn_vheat_small_fpn_1x_dota_le90_ms.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td> VHeat-B</td> <td>4*4</td> <td>1e-4</td> <td>  -  </td> <td>  -  </td> <td>  - </td> <td></td> <td></td> <td></td> 
-            <td> - </td>
+            <td><a href="https://github.com/AkitsukiM/VMamba-DOTA/blob/master/mmrotate-0.3.3/configs/_ms_/oriented_rcnn_vheat_base_fpn_1x_dota_le90_ms.py">cfg</a></td>
     </tr>
     <tr align="center">
         <td>VMamba-T</td> <td>4*4</td> <td>1e-4</td> <td>89.78</td> <td>80.70</td> <td> 6.8h</td> <td></td> <td></td> <td></td> 
@@ -385,11 +386,13 @@ python ./tools/analysis_tools/get_flops.py ./configs/rotated_faster_rcnn/rotated
 
 ## 写在后面
 
+有错误请及时指出！虽然不会经常来看issue非常抱歉但是看到就一定会回复的。
+
 更新代码好麻烦呜呜呜
 
 -----
 
 Copyright (c) 2024 Marina Akitsuki. All rights reserved.
 
-Date modified: 2024/05/22
+Date modified: 2024/06/03
 

@@ -52,4 +52,4 @@ train_dataloader = dict(
     num_workers=4)
 
 test_evaluator = dict(
-    outfile_prefix='./work_dirs/Task1_oriented-rcnn-le90_swin-tiny_fpn_1x_dota')
+    outfile_prefix='./work_dirs/Task1_oriented-rcnn-le90_swin-tiny_fpn_1x_dota_ms')
